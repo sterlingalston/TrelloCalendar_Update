@@ -1,7 +1,9 @@
+var GoogleCalendarName = "TrelloCal name here";
+
 function addTrelloCalendars() {
   
   var calURL = "trello.ics link here";
-  var trelloCalName = "TrelloCal";
+  var trelloCalName = GoogleCalendarName;
   var ics = UrlFetchApp.fetch(calURL);
   var reSummary = /SUMMARY:[^\n]+/g;
   var redtstart = /DTSTART:[^\n]+/g;
@@ -22,12 +24,12 @@ function addTrelloCalendars() {
   var todayDater = new Date();
   todayDater = todayDater.getMonth()+"-"+todayDater.getDate()+"-"+ todayDater.getFullYear();
 
-  //removing old TrelloCalendar and adding new one  
-  RemoveTrelloCal(trelloCalName);
-  var trelloCal = CalendarApp.createCalendar(trelloCalName
-                                             ,{summary: ('Trello Cal updated %s', todayDater)
-                                               , timeZone:"America/New_York"
-                                               , color: CalendarApp.Color.INDIGO});
+  //removing old TrelloCalendar and adding new one (not used anymore)
+  //RemoveTrelloCal(trelloCalName);
+  //var trelloCal = CalendarApp.createCalendar(trelloCalName,{summary: ('Trello Cal updated %s', todayDater), timeZone:"America/New_York", color: CalendarApp.Color.PINK});
+  
+  //removing all events and adding new one
+  deleteEvents()
   
   for (var i=0;i < summary_matches.length; i++){
     
@@ -72,3 +74,20 @@ function trelloISOToDate(timestr){
 function RemoveTrelloCal(arg1){
   CalendarApp.getCalendarsByName(arg1)[0].deleteCalendar();
 }
+
+function deleteEvents()
+{
+    var fromDate = new Date(2017,0,1,0,0,0); 
+    var toDate = new Date(2022,0,1,0,0,0);
+    var calendarName = GoogleCalendarName;
+
+    // delete from Jan 1 2017 to end of Jan 1, 2022 (for month 0 = Jan, 1 = Feb...)
+
+    var calendar = CalendarApp.getCalendarsByName(calendarName)[0];
+    var events = calendar.getEvents(fromDate, toDate);
+    for(var i=0; i<events.length;i++){
+      var ev = events[i];
+      Logger.log(ev.getTitle()); // show event name in log
+      ev.deleteEvent();
+    }
+ }
