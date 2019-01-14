@@ -1,7 +1,7 @@
-function addTrelloCalendars() {
+function addTrelloCalendarsGSA() {
   
-  var calURL = "https://trello.com/calendar/5abbacb1e19b15d283806534/5abbacb58c7256d87131db89/768078fba8876d05099c1c623d85caba.ics";
-  var trelloCalName = "TrelloCal";
+  var calURL = "https://trello.com/calendar/5abbacb1e19b15d283806534/5abbd03309217d0760e42082/9038593ef27c52f27e95e153557ce1f5.ics";
+  var trelloCalName = "TrelloCal_GSA";
   var ics = UrlFetchApp.fetch(calURL);
   var reSummary = /SUMMARY:[^\n]+/g;
   var redtstart = /DTSTART:[^\n]+/g;
@@ -57,18 +57,3 @@ function addTrelloCalendars() {
 }
   
   
-
-function makeTrelloEvent(title,dtst,dtend,description,TrelloCalName){
-
- var event = CalendarApp.getCalendarsByName(TrelloCalName)[0].createEvent(title, dtst, dtend);
- event.setDescription(description);
-  
-}
-
-function trelloISOToDate(timestr){
-  return new Date(timestr.substr(0,4) + '-' + timestr.substr(4,2) + '-' + timestr.substr(6,5) + ':'   + timestr.substr(11,2) + ':' + timestr.substr(13,3));
-}
-
-function RemoveTrelloCal(arg1){
-  CalendarApp.getCalendarsByName(arg1)[0].deleteCalendar();
-}
