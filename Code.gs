@@ -4,6 +4,7 @@ function addTrelloCalendars() {
   
   var calURL = "trello.ics link here";
   var trelloCalName = GoogleCalendarName;
+
   var ics = UrlFetchApp.fetch(calURL);
   var reSummary = /SUMMARY:[^\n]+/g;
   var redtstart = /DTSTART:[^\n]+/g;
